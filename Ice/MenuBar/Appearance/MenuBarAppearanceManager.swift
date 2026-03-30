@@ -66,10 +66,11 @@ final class MenuBarAppearanceManager: ObservableObject {
                 guard let self else {
                     return
                 }
+                let previousDisplayIDs = Set(overlayPanels.map { $0.owningScreen.displayID })
                 while let panel = overlayPanels.popFirst() {
                     panel.orderOut(self)
                 }
-                if Set(overlayPanels.map { $0.owningScreen }) != Set(NSScreen.screens) {
+                if previousDisplayIDs != Set(NSScreen.screens.map { $0.displayID }) {
                     configureOverlayPanels(with: configuration)
                 }
             }

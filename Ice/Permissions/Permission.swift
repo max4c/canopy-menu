@@ -6,7 +6,6 @@
 import AXSwift
 import Combine
 import Cocoa
-import ScreenCaptureKit
 
 // MARK: - Permission
 
@@ -73,6 +72,10 @@ class Permission: ObservableObject, Identifiable {
                     return
                 }
                 hasPermission = check()
+                if hasPermission {
+                    timerCancellable?.cancel()
+                    timerCancellable = nil
+                }
             }
     }
 
@@ -148,7 +151,7 @@ final class ScreenRecordingPermission: Permission {
             isRequired: false,
             settingsURL: URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture"),
             check: {
-                ScreenCapture.checkPermissions()
+                CGPreflightScreenCaptureAccess()
             },
             request: {
                 ScreenCapture.requestPermissions()

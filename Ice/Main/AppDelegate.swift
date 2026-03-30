@@ -43,7 +43,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         // Perform setup after a small delay to ensure that the settings window
         // has been assigned.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        Task {
+            try? await Task.sleep(for: .milliseconds(100))
             guard !appState.isPreview else {
                 return
             }
@@ -87,7 +88,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             return
         }
         // Small delay makes this more reliable.
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+        Task {
+            try? await Task.sleep(for: .milliseconds(100))
             appState.activate(withPolicy: .regular)
             appState.openSettingsWindow()
         }

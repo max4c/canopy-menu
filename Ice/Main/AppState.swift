@@ -272,7 +272,8 @@ final class AppState: ObservableObject {
             Logger.appState.debug("First time activating app, so going through Dock")
             // Hack to make sure the app properly activates for the first time.
             NSRunningApplication.runningApplications(withBundleIdentifier: "com.apple.dock").first?.activate()
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            Task {
+                try? await Task.sleep(for: .milliseconds(200))
                 activate()
             }
         }
