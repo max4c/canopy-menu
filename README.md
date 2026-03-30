@@ -1,5 +1,5 @@
 <div align="center">
-    <!-- TODO: Replace with Canopy toucan icon -->
+    <img src="Ice/Assets.xcassets/AppIcon.appiconset/icon_256x256.png" width=200 height=200>
     <h1>Canopy</h1>
 </div>
 

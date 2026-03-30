@@ -160,12 +160,9 @@ final class IceBarPanel: NSPanel {
         appState.navigationState.isIceBarPresented = true
         currentSection = section
 
-        await appState.itemManager.cacheItemsIfNeeded()
-
-        if ScreenCapture.cachedCheckPermissions() {
-            await appState.imageCache.updateCache()
-        }
-
+        // Show the panel immediately so the user gets instant feedback, then
+        // update the item/image caches in the background. The hosting view
+        // observes the caches and will refresh automatically once data arrives.
         contentView = IceBarHostingView(appState: appState, colorManager: colorManager, screen: screen, section: section) { [weak self] in
             self?.close()
         }
@@ -179,6 +176,13 @@ final class IceBarPanel: NSPanel {
         colorManager.updateAllProperties(with: frame, screen: screen)
 
         orderFrontRegardless()
+
+        // Update caches after the panel is visible.
+        await appState.itemManager.cacheItemsIfNeeded()
+
+        if ScreenCapture.cachedCheckPermissions() {
+            await appState.imageCache.updateCache()
+        }
     }
 
     override func close() {
